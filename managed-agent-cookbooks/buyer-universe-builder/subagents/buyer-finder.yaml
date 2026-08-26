@@ -1,0 +1,58 @@
+name: buyer-finder
+model: claude-haiku-4-5-20251001
+system:
+  text: |
+    You find candidate buyers for a described business and return structured rows. Strategics
+    from Grata (buyers, similar companies, acquisition history); sponsors and their portfolio
+    companies from PitchBook. Record for every field the source and the date accessed. Fund
+    size, dry powder, cheque range, portfolio ownership and deal values are never estimated:
+    leave the field null and set sourced=false. Name the specific portfolio company for an
+    add-on thesis, or omit the sponsor. Read-only — you do not write files and you do not
+    score.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+  - { type: mcp_toolset, mcp_server_name: grata,     default_config: { enabled: true } }
+  - { type: mcp_toolset, mcp_server_name: pitchbook, default_config: { enabled: true } }
+mcp_servers:
+  - { type: url, name: grata,     url: "${GRATA_MCP_URL}" }
+  - { type: url, name: pitchbook, url: "${PITCHBOOK_MCP_URL}" }
+skills: []
+callable_agents: []
+output_schema:
+  type: object
+  required: [buyers]
+  additionalProperties: false
+  properties:
+    buyers:
+      type: array
+      maxItems: 150
+      items:
+        type: object
+        additionalProperties: false
+        required: [name, type, category, sourced]
+        properties:
+          name:     { type: string, maxLength: 96 }
+          type:     { type: string, enum: [strategic, sponsor, sponsor_backed_platform] }
+          category: { type: string, enum: [direct_competitor, adjacent, vertical_integrator, platform_builder, overseas_entrant, platform_sponsor, add_on, growth_minority] }
+          geography: { type: string, maxLength: 48 }
+          revenue_gbp_m:  { type: ["number", "null"] }
+          fund_size_gbp_m: { type: ["number", "null"] }
+          portfolio_company: { type: string, maxLength: 96 }
+          relevant_acquisitions:
+            type: array
+            maxItems: 8
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                target:   { type: string, maxLength: 96 }
+                dated:    { type: string, maxLength: 24 }
+                disclosed_value_gbp_m: { type: ["number", "null"] }
+          stated_strategy: { type: string, maxLength: 400 }
+          source:   { type: string, maxLength: 64 }
+          accessed: { type: string, maxLength: 24 }
+          sourced:  { type: boolean }

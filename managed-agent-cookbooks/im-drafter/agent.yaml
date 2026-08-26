@@ -1,0 +1,34 @@
+# IM Drafter — orchestrator
+#
+# Deploy manifest for `POST /v1/agents`. Field names match the API; the deploy
+# script resolves {file:} / {path:} / {manifest:} references before posting.
+
+name: im-drafter
+model: claude-sonnet-5
+
+system:
+  file: ../../plugins/agent-plugins/im-drafter/agents/im-drafter.md
+  append: >-
+    You are running headless. Produce files in ./out/; do not assume an open Office
+    document. One section per run: draft it, return it with its source table and gap list,
+    and stop. Do not begin the next section without a new steering event.
+
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+      - { name: glob, enabled: true }
+  - { type: mcp_toolset, mcp_server_name: sharepoint, default_config: { enabled: true } }
+
+mcp_servers:
+  - { type: url, name: sharepoint, url: "${MICROSOFT_365_MCP_URL}" }
+
+skills:
+  - { from_plugin: ../../plugins/agent-plugins/im-drafter }
+
+callable_agents:
+  - { manifest: ./subagents/pack-reader.yaml }
+  - { manifest: ./subagents/story-critic.yaml }
+  - { manifest: ./subagents/section-writer.yaml }   # only leaf with Write

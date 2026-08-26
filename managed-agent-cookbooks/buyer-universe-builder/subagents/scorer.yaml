@@ -1,0 +1,53 @@
+name: buyer-scorer
+model: claude-sonnet-5
+system:
+  text: |
+    You score candidate buyers against the Debrett's model: strategic fit 30%, ability to
+    pay 25%, acquisitiveness 20%, deliverability 15%, relationship 10%. Give the evidence
+    for every score. Then apply the overrides as flags, never as silent removals: antitrust
+    risk (state the market definition used), confidentiality risk, vendor exclusion, and
+    fund life. A buyer whose ability to pay cannot be sourced is capped at 3 on that
+    criterion and flagged. Write the buyer-specific angle only where you can name something
+    specific to that buyer; otherwise return it empty rather than generic.
+    Read-only — you do not write files.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+mcp_servers: []
+skills: []
+callable_agents: []
+output_schema:
+  type: object
+  required: [scored]
+  additionalProperties: false
+  properties:
+    scored:
+      type: array
+      maxItems: 150
+      items:
+        type: object
+        additionalProperties: false
+        required: [name, weighted_score, tier]
+        properties:
+          name: { type: string, maxLength: 96 }
+          scores:
+            type: object
+            additionalProperties: false
+            properties:
+              strategic_fit:  { type: integer, minimum: 1, maximum: 5 }
+              ability_to_pay: { type: integer, minimum: 1, maximum: 5 }
+              acquisitiveness: { type: integer, minimum: 1, maximum: 5 }
+              deliverability: { type: integer, minimum: 1, maximum: 5 }
+              relationship:   { type: integer, minimum: 1, maximum: 5 }
+          evidence:       { type: string, maxLength: 800 }
+          weighted_score: { type: number, minimum: 0, maximum: 5 }
+          tier:           { type: integer, minimum: 1, maximum: 3 }
+          flags:
+            type: array
+            maxItems: 6
+            items: { type: string, enum: [antitrust, confidentiality, vendor_exclusion, fund_life, unverified] }
+          flag_detail: { type: string, maxLength: 600 }
+          angle:       { type: string, maxLength: 800 }

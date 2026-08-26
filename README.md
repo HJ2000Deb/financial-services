@@ -30,6 +30,10 @@ Each agent plugin is **self-contained** — it bundles the skills it uses, so in
 | | **[Month-End Closer](./plugins/agent-plugins/month-end-closer)** | Accruals, roll-forwards, variance commentary |
 | | **[Statement Auditor](./plugins/agent-plugins/statement-auditor)** | Audits LP statements before distribution |
 | **Operations & onboarding** | **[KYC Screener](./plugins/agent-plugins/kyc-screener)** | Parses onboarding docs, runs the rules engine, flags gaps |
+| **Sell-side M&A, end to end** | **[Origination Scout](./plugins/agent-plugins/origination-scout)** | Sector sweep → scored shortlist → dossiers → outreach drafts |
+| | **[IM Drafter](./plugins/agent-plugins/im-drafter)** | Data pack → equity story → IM, section by section |
+| | **[Buyer Universe Builder](./plugins/agent-plugins/buyer-universe-builder)** | Scored buyer universe, buyer angles, and the process document set |
+| | **[Diligence Desk](./plugins/agent-plugins/diligence-desk)** | Data room index and gaps → Q&A pack → offer comparison → completion |
 
 For Managed Agent deployment — `agent.yaml`, leaf-worker subagents, steering-event examples, and per-agent security notes — see **[managed-agent-cookbooks/](./managed-agent-cookbooks)**.
 
@@ -111,6 +115,7 @@ Start with **financial-analysis** — it carries the shared modeling skills and 
 | **[wealth-management](./plugins/vertical-plugins/wealth-management)** | Client reviews, financial plans, rebalancing, reporting, TLH. |
 | **[fund-admin](./plugins/vertical-plugins/fund-admin)** | GL recon, break tracing, accruals, roll-forwards, variance commentary, NAV tie-out. |
 | **[operations](./plugins/vertical-plugins/operations)** | KYC document parsing and rules-grid evaluation. |
+| **[debretts-ma-advisory](./plugins/vertical-plugins/debretts-ma-advisory)** | A worked example of a firm's own house method: sell-side M&A across the six stages of the deal cycle, house style, and a verification pass. |
 | **[lseg](./plugins/partner-built/lseg)** *(partner)* | Bond RV, swap curves, FX carry, options vol, macro-rates monitoring on LSEG data. |
 | **[sp-global](./plugins/partner-built/spglobal)** *(partner)* | Tear sheets, earnings previews, funding digests on S&P Capital IQ. |
 
@@ -243,6 +248,37 @@ These are reference templates — they get better when you tune them to how your
 | client-report | `/client-report` | Client-facing performance reports |
 | investment-proposal | `/proposal` | Proposals for prospective clients |
 | tax-loss-harvesting | `/tlh` | Identify TLH opportunities and manage wash sales |
+
+</details>
+
+<details>
+<summary><b>debretts-ma-advisory</b> — a firm's house method across the deal cycle</summary>
+
+| Skill | Command | Description |
+|---|---|---|
+| debretts-sector-screen | `/screen` | Screen a sector against the firm's criteria and the timing signals |
+| debretts-target-dossier | `/dossier` | One-page sourced dossier before a call or a pitch |
+| debretts-outreach | `/outreach` | Personalised outreach and the four-touch sequence — drafts only |
+| debretts-pitch-narrative | `/pitch` | Market context, positioning, differentiation, objection handling |
+| debretts-mandate-setup | `/mandate` | Stand up a mandate: Project, documents, standing instructions, timetable |
+| debretts-equity-story | `/equity-story` | Equity story pillars with the counter-argument to each |
+| debretts-im-section | `/im` | IM drafting section by section, every figure sourced |
+| debretts-buyer-universe | `/buyers` | Scored, tiered buyer universe with buyer-specific angles |
+| debretts-process-docs | `/process-docs` | Teaser, NDA log, process letters, timetable as one consistent set |
+| debretts-dataroom-index | `/dataroom` | Data room index and the missing / weak / damaging gap lists |
+| debretts-qa-pack | `/qa` | Anticipated and live diligence Q&A, consistency-checked |
+| debretts-offer-comparison | `/offers` | Offers normalised to cash-to-shareholder, ranked three ways |
+| debretts-completion | `/completion` | Negotiation prep, plain-English summaries, checklist, debrief |
+| debretts-process-update | `/update` | Weekly vendor process update, reconciled against the logs |
+| debretts-meeting-debrief | `/debrief` | Meeting into actions, owners and dates |
+| debretts-pipeline-review | `/pipeline` | Weekly pipeline pack and where the next hour goes |
+| debretts-house-style | — | British English, house register, brand standards, no invented figures |
+| debretts-verify | `/verify` | The verification pass, with a claim extractor for docx/pptx/xlsx |
+| debretts-golden-prompt | `/prompt` | Role, Task, Context, Format, Constraints — and the third-repeat rule |
+
+Team-account operating documents — Project taxonomy, standing instructions, model routing,
+connector governance, the automation map and the rollout plan — are in
+[`plugins/vertical-plugins/debretts-ma-advisory/docs/`](./plugins/vertical-plugins/debretts-ma-advisory/docs/).
 
 </details>
 

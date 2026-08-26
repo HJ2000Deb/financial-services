@@ -16,6 +16,10 @@ Run `../scripts/deploy-managed-agent.sh <slug>` to upload skills, create leaf wo
 | [`valuation-reviewer`](./valuation-reviewer/) | private-equity | Ingests GP packages, runs valuation, stages LP reporting | `Review portco valuations for fund <X> as of <date>` | package-reader · valuation-runner · **publisher** |
 | [`month-end-closer`](./month-end-closer/) | financial-analysis | Accruals, roll-forwards, variance commentary | `Close <entity> for period <YYYY-MM>` | ledger-reader · rollforward · **poster** |
 | [`statement-auditor`](./statement-auditor/) | private-equity | Audits LP statements before distribution | `Tie out statement batch <id> against <fund> NAV pack` | statement-reader · reconciler · **flagger** |
+| [`origination-scout`](./origination-scout/) | debretts-ma-advisory | Sector sweep → scored shortlist → dossiers → outreach drafts | `Sweep sector: <sector>, <size band>, <ownership>` | screener · signal-checker · **shortlist-writer** |
+| [`im-drafter`](./im-drafter/) | debretts-ma-advisory | Data pack → equity story → IM, section by section | `Draft IM section <n>, <name>, for <mandate>. Page budget <n>.` | pack-reader · story-critic · **section-writer** |
+| [`buyer-universe-builder`](./buyer-universe-builder/) | debretts-ma-advisory | Scored buyer universe, angles, and the process document set | `Build the buyer universe for <mandate>` | buyer-finder · scorer · **doc-writer** |
+| [`diligence-desk`](./diligence-desk/) | debretts-ma-advisory | Data room index and gaps → Q&A → offers → completion | `<mandate>: draft answers to questions <range> from <buyer>` | room-reader · consistency-checker · **pack-writer** |
 
 **Bold** leaf = the only worker with `Write`.
 

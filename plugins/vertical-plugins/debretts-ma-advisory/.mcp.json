@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "pitchbook": {
+      "type": "http",
+      "url": "https://premium.mcp.pitchbook.com/mcp"
+    },
+    "grata": {
+      "type": "http",
+      "url": "${GRATA_MCP_URL}"
+    },
+    "microsoft365": {
+      "type": "http",
+      "url": "${MICROSOFT_365_MCP_URL}"
+    },
+    "crm": {
+      "type": "http",
+      "url": "${CRM_MCP_URL}"
+    }
+  }
+}

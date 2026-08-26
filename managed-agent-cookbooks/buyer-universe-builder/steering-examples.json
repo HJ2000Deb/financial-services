@@ -1,0 +1,6 @@
+[
+  { "event": "Build the buyer universe for Project Kestrel. Equity story approved 14 September 2026. Vendor wants management continuity and confidentiality over speed.", "description": "Full universe build, scored and tiered" },
+  { "event": "Buyer list approved by the vendor with Harbrook removed. Produce the process document set, Phase 1 deadline 30 October 2026.", "description": "Approval event; process documents only after the list is approved" },
+  { "event": "Timetable changed for Project Kestrel: Phase 1 moves to 06 November 2026. Regenerate the set and list what must be reissued.", "description": "Event-driven regeneration with a change log" },
+  { "event": "Broaden the process for Project Kestrel: promote Tier 3 candidates in adjacent categories and write angles for the new names.", "description": "Second-wave broadening" }
+]

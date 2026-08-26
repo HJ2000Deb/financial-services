@@ -1,0 +1,37 @@
+# Origination Scout — orchestrator
+#
+# Deploy manifest for `POST /v1/agents`. Field names match the API; the deploy
+# script resolves {file:} / {path:} / {manifest:} references before posting.
+# See ../README.md for the manifest→API mapping.
+
+name: origination-scout
+model: claude-sonnet-5
+
+system:
+  file: ../../plugins/agent-plugins/origination-scout/agents/origination-scout.md
+  append: >-
+    You are running headless. Produce files in ./out/; do not assume an open Office
+    document. You hold no write tool and no send tool: dispatch to the leaf workers,
+    aggregate their structured results, and stop for approval before any outreach is
+    drafted.
+
+# The orchestrator reads and dispatches. It never holds write, bash or any send tool.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+      - { name: glob, enabled: true }
+  - { type: mcp_toolset, mcp_server_name: crm, default_config: { enabled: true } }
+
+mcp_servers:
+  - { type: url, name: crm, url: "${CRM_MCP_URL}" }
+
+skills:
+  - { from_plugin: ../../plugins/agent-plugins/origination-scout }
+
+callable_agents:
+  - { manifest: ./subagents/screener.yaml }
+  - { manifest: ./subagents/signal-checker.yaml }
+  - { manifest: ./subagents/shortlist-writer.yaml }   # only leaf with Write

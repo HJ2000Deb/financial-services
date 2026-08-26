@@ -1,0 +1,49 @@
+name: im-pack-reader
+model: claude-haiku-4-5-20251001
+system:
+  text: |
+    You read the data pack for one IM section and return the facts available, each with its
+    basis and its source location. Load documents in full; do not summarise from snippets.
+    Label every figure: period, statutory or management, audited or unaudited, reported or
+    adjusted. Where a fact needed for the section is absent, return it as a gap rather than
+    filling it. Read-only — you do not write files, and you do not draft prose.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+      - { name: glob, enabled: true }
+mcp_servers: []
+skills: []
+callable_agents: []
+output_schema:
+  type: object
+  required: [section, facts, gaps]
+  additionalProperties: false
+  properties:
+    section: { type: string, maxLength: 64 }
+    facts:
+      type: array
+      maxItems: 200
+      items:
+        type: object
+        additionalProperties: false
+        required: [statement, source]
+        properties:
+          statement: { type: string, maxLength: 600 }
+          metric:    { type: string, maxLength: 64 }
+          value:     { type: ["number", "string", "null"] }
+          period:    { type: string, maxLength: 24 }
+          basis:     { type: string, enum: [statutory, management, audited, unaudited, reported, adjusted, not_applicable] }
+          source:    { type: string, maxLength: 200 }
+    gaps:
+      type: array
+      maxItems: 60
+      items:
+        type: object
+        additionalProperties: false
+        required: [missing, who_can_supply]
+        properties:
+          missing:        { type: string, maxLength: 300 }
+          who_can_supply: { type: string, maxLength: 96 }

@@ -1,0 +1,42 @@
+name: origination-signal-checker
+model: claude-haiku-4-5-20251001
+system:
+  text: |
+    You watch a list of companies for change since a given date: new filings, director
+    appointments and resignations, funding rounds, acquisitions, published news. Report
+    only what changed, with the source and the date. If nothing changed for a company,
+    omit it — silence is the correct output. Never infer intent to sell, and never report
+    anything about a named individual beyond what is publicly filed or published.
+    Read-only — you do not write files.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+  - { type: mcp_toolset, mcp_server_name: grata,     default_config: { enabled: true } }
+  - { type: mcp_toolset, mcp_server_name: pitchbook, default_config: { enabled: true } }
+mcp_servers:
+  - { type: url, name: grata,     url: "${GRATA_MCP_URL}" }
+  - { type: url, name: pitchbook, url: "${PITCHBOOK_MCP_URL}" }
+skills: []
+callable_agents: []
+output_schema:
+  type: object
+  required: [changes]
+  additionalProperties: false
+  properties:
+    changes:
+      type: array
+      maxItems: 100
+      items:
+        type: object
+        additionalProperties: false
+        required: [company, change_type, detail, source, dated]
+        properties:
+          company:     { type: string, maxLength: 96 }
+          change_type: { type: string, enum: [accounts_filed, director_change, shareholding_change, funding, acquisition, news, other] }
+          detail:      { type: string, maxLength: 600 }
+          source:      { type: string, maxLength: 64 }
+          dated:       { type: string, maxLength: 24 }
+          worth_a_call: { type: boolean }

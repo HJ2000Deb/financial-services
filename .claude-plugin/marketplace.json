@@ -40,6 +40,11 @@
       "description": "Operational workflows: KYC document parsing and rules-grid evaluation"
     },
     {
+      "name": "debretts-ma-advisory",
+      "source": "./plugins/vertical-plugins/debretts-ma-advisory",
+      "description": "Debrett's M&A advisory house method: skills, commands and connectors across the six stages of the deal cycle, from origination to completion"
+    },
+    {
       "name": "pitch-agent",
       "source": "./plugins/agent-plugins/pitch-agent",
       "description": "Comps, precedents, LBO to a branded pitch deck, end to end"
@@ -88,6 +93,26 @@
       "name": "statement-auditor",
       "source": "./plugins/agent-plugins/statement-auditor",
       "description": "Audits pre-generated LP statements before distribution"
+    },
+    {
+      "name": "origination-scout",
+      "source": "./plugins/agent-plugins/origination-scout",
+      "description": "Sector sweep to scored shortlist to dossiers to outreach drafts"
+    },
+    {
+      "name": "im-drafter",
+      "source": "./plugins/agent-plugins/im-drafter",
+      "description": "Data pack to equity story to information memorandum, section by section"
+    },
+    {
+      "name": "buyer-universe-builder",
+      "source": "./plugins/agent-plugins/buyer-universe-builder",
+      "description": "Scored buyer universe, buyer angles and the process document set"
+    },
+    {
+      "name": "diligence-desk",
+      "source": "./plugins/agent-plugins/diligence-desk",
+      "description": "Data room index and gaps, Q&A pack, offer comparison, completion"
     },
     {
       "name": "lseg",

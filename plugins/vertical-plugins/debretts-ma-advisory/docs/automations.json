@@ -1,0 +1,118 @@
+{
+  "$comment": "Debrett's M&A advisory — scheduled and event-driven flows. Cron is UTC, five fields. Every flow produces a draft for review; none sends. See automation-map.md for the prose version.",
+  "version": "0.1.0",
+  "defaults": {
+    "approval": "manual",
+    "output": "out/ in the mandate or origination folder, dated",
+    "on_failure": "notify the owner, do not retry silently",
+    "sends_externally": false
+  },
+  "flows": [
+    {
+      "id": "pipeline-review",
+      "name": "Monday pipeline review pack",
+      "stage": "cross-cutting",
+      "trigger": { "type": "schedule", "cron": "0 6 * * 1", "note": "07:00 London in summer; 06:00 UTC" },
+      "runs": { "kind": "skill", "ref": "debretts-pipeline-review" },
+      "model": "claude-sonnet-5",
+      "inputs": ["crm", "mandate projects", "origination project"],
+      "output": "Four tables plus the marginal-hour recommendation",
+      "reviewed_by": "partners, at the Monday meeting",
+      "owner": "origination lead"
+    },
+    {
+      "id": "weekly-process-update",
+      "name": "Weekly vendor process update, per live mandate",
+      "stage": "4-marketing",
+      "trigger": { "type": "schedule", "cron": "0 7 * * 5", "note": "Friday morning, one run per live mandate" },
+      "runs": { "kind": "skill", "ref": "debretts-process-update" },
+      "model": "claude-sonnet-5",
+      "inputs": ["approach log", "nda log", "qa log", "timetable", "outlook", "teams"],
+      "output": "One-page update for partner review, plus an internal reconciliation annex",
+      "gate": "Halts and reports if a log disagrees with the correspondence",
+      "reviewed_by": "deal partner before sending",
+      "owner": "deal executive"
+    },
+    {
+      "id": "qa-reconciliation",
+      "name": "Q&A log reconciliation, exceptions only",
+      "stage": "5-diligence",
+      "trigger": { "type": "schedule", "cron": "0 17 * * 1-5", "condition": "a buyer deadline is live" },
+      "runs": { "kind": "agent", "ref": "diligence-desk", "steering": "Reconcile the Q&A log for <mandate>; report exceptions only" },
+      "model": "claude-haiku-4-5-20251001",
+      "output": "Overdue, outstanding, and answered-but-inconsistent counts, with the items",
+      "reviewed_by": "deal executive",
+      "owner": "deal executive"
+    },
+    {
+      "id": "origination-sweep",
+      "name": "Monthly origination sweep, per active sector",
+      "stage": "1-origination",
+      "trigger": { "type": "schedule", "cron": "0 6 1 * *" },
+      "runs": { "kind": "agent", "ref": "origination-scout", "steering": "Sweep <sector>: screen, score, shortlist, dossiers for priority A" },
+      "model": "claude-sonnet-5",
+      "inputs": ["grata", "pitchbook", "companies house", "crm", "exclusion list"],
+      "output": "Scored shortlist A/B/C, dossiers for the A names, outreach drafts held for approval",
+      "gate": "Exclusion list checked before the shortlist is produced",
+      "reviewed_by": "sector partner",
+      "owner": "origination lead"
+    },
+    {
+      "id": "signal-watch",
+      "name": "Signal watch on priority B and C names",
+      "stage": "1-origination",
+      "trigger": { "type": "schedule", "cron": "0 6 * * 2" },
+      "runs": { "kind": "agent", "ref": "origination-scout", "steering": "Signal watch: report changes on the B and C list for <sector>" },
+      "model": "claude-haiku-4-5-20251001",
+      "inputs": ["companies house filings", "grata", "pitchbook", "press"],
+      "output": "Change note only where something changed: filings, directors, funding, acquisitions",
+      "note": "Silence is a valid output. Do not generate a note when nothing moved",
+      "owner": "origination lead"
+    },
+    {
+      "id": "timetable-change",
+      "name": "Process document set regenerated on a timetable change",
+      "stage": "4-marketing",
+      "trigger": { "type": "event", "event": "timetable updated in the mandate project" },
+      "runs": { "kind": "agent", "ref": "buyer-universe-builder", "steering": "Timetable changed for <mandate>: regenerate the process document set and list what must be reissued" },
+      "model": "claude-sonnet-5",
+      "output": "Regenerated set, plus a change log naming who holds a superseded version",
+      "reviewed_by": "deal partner",
+      "owner": "deal executive"
+    },
+    {
+      "id": "pre-send-verification",
+      "name": "Verification pass before any external send",
+      "stage": "cross-cutting",
+      "trigger": { "type": "event", "event": "a document is marked ready to send" },
+      "runs": { "kind": "skill", "ref": "debretts-verify" },
+      "model": "claude-sonnet-5",
+      "output": "Verification log, open items with the action that clears each, one line on readiness",
+      "blocking": true,
+      "note": "Advisory to the author, who remains responsible. It does not clear a document for sending",
+      "owner": "the person whose name is on the work"
+    },
+    {
+      "id": "meeting-debrief",
+      "name": "Debrief after a management, buyer or pitch meeting",
+      "stage": "cross-cutting",
+      "trigger": { "type": "event", "event": "meeting notes or transcript added to the mandate project" },
+      "runs": { "kind": "skill", "ref": "debretts-meeting-debrief" },
+      "model": "claude-sonnet-5",
+      "output": "Actions with named owners and dates, decisions, what we learned, follow-up drafts",
+      "reviewed_by": "the meeting owner",
+      "owner": "deal executive"
+    },
+    {
+      "id": "post-completion-debrief",
+      "name": "Post-completion debrief and method capture",
+      "stage": "6-completion",
+      "trigger": { "type": "event", "event": "completion", "within": "10 working days" },
+      "runs": { "kind": "skill", "ref": "debretts-completion" },
+      "model": "claude-opus-5",
+      "output": "Internal debrief, plus the list of what should become a firm skill or a sector note",
+      "reviewed_by": "deal partner",
+      "owner": "deal partner"
+    }
+  ]
+}

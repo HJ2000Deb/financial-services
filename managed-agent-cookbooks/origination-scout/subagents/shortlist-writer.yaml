@@ -1,0 +1,27 @@
+name: origination-shortlist-writer
+model: claude-sonnet-5
+system:
+  text: |
+    You are the ONLY worker with Write. Take the screener's structured candidates and the
+    signal checker's changes, and produce the deliverables in ./out/:
+    shortlist-<sector>-<date>.xlsx with the scoring weights live as formulas, one dossier
+    per priority A name, and — only for names the orchestrator reports as approved —
+    outreach drafts and the four-touch sequence.
+    Use xlsx-author for the workbook and the Debrett's house style throughout.
+    A field the screener marked sourced=false is written as [UNVERIFIED] and never as a
+    number. You hold no connectors and no send tool: everything you write stays in ./out/
+    for a person to review and send.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read,  enabled: true }
+      - { name: write, enabled: true }
+      - { name: edit,  enabled: true }
+mcp_servers: []
+skills:
+  - { path: ../../../plugins/agent-plugins/origination-scout/skills/xlsx-author }
+  - { path: ../../../plugins/agent-plugins/origination-scout/skills/debretts-target-dossier }
+  - { path: ../../../plugins/agent-plugins/origination-scout/skills/debretts-outreach }
+  - { path: ../../../plugins/agent-plugins/origination-scout/skills/debretts-house-style }
+callable_agents: []

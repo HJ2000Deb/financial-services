@@ -1,0 +1,60 @@
+name: origination-screener
+model: claude-haiku-4-5-20251001
+system:
+  text: |
+    You screen a sector for origination candidates against a written screen and return
+    structured rows. Source every field from Grata, PitchBook or filed accounts and record
+    the source and the date accessed. Never estimate revenue, EBITDA or ownership: leave
+    the field null and set sourced=false. Never infer that a company is for sale, and
+    never record anything about a named individual beyond what is publicly filed.
+    Read-only — you do not write files.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+  - { type: mcp_toolset, mcp_server_name: grata,     default_config: { enabled: true } }
+  - { type: mcp_toolset, mcp_server_name: pitchbook, default_config: { enabled: true } }
+mcp_servers:
+  - { type: url, name: grata,     url: "${GRATA_MCP_URL}" }
+  - { type: url, name: pitchbook, url: "${PITCHBOOK_MCP_URL}" }
+skills: []
+callable_agents: []
+output_schema:
+  type: object
+  required: [sector, candidates]
+  additionalProperties: false
+  properties:
+    sector: { type: string, maxLength: 64, pattern: "^[A-Za-z0-9 &,._/-]+$" }
+    candidates:
+      type: array
+      maxItems: 120
+      items:
+        type: object
+        additionalProperties: false
+        required: [name, sourced]
+        properties:
+          name:         { type: string, maxLength: 96, pattern: "^[A-Za-z0-9 &'.,()_-]+$" }
+          company_number: { type: string, maxLength: 16, pattern: "^[A-Z0-9]*$" }
+          sub_sector:   { type: string, maxLength: 64 }
+          revenue_gbp_m: { type: ["number", "null"] }
+          ebitda_gbp_m:  { type: ["number", "null"] }
+          basis:        { type: string, enum: [statutory, management, unknown] }
+          ownership:    { type: string, enum: [founder, family, management, sponsor, corporate, listed, unknown] }
+          sponsor:      { type: string, maxLength: 96 }
+          accounts_date: { type: string, maxLength: 24 }
+          signals:
+            type: array
+            maxItems: 6
+            items:
+              type: object
+              additionalProperties: false
+              required: [signal, score]
+              properties:
+                signal:   { type: string, enum: [succession, plateau, sponsor_clock, capital_need, consolidation, relationship] }
+                score:    { type: integer, minimum: 0, maximum: 3 }
+                evidence: { type: string, maxLength: 400 }
+          source:       { type: string, maxLength: 64 }
+          accessed:     { type: string, maxLength: 24 }
+          sourced:      { type: boolean }

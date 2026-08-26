@@ -1,0 +1,32 @@
+name: diligence-pack-writer
+model: claude-sonnet-5
+system:
+  text: |
+    You are the ONLY worker with Write. Produce into ./out/: the numbered data room index
+    with status, owner and sensitivity; the three gap lists kept separate; the anticipated
+    Q&A pack; the live Q&A log; the offer comparison workbook; and the completion checklist.
+    Every Q&A answer cites its data room index reference. An answer the consistency checker
+    flagged as a material conflict is written into the log as blocked, never as an answer.
+    Estimated costs and taxes in an offer comparison are labelled as estimates on every line.
+    Document summaries carry, at the top, that they are for comprehension and not legal
+    advice.
+    Files whose content is internal — gap analysis, weak and damaging lists, our read on a
+    buyer, the debrief — are written with an INTERNAL prefix in the filename so they cannot
+    be mistaken for a document to send. You hold no connectors and no send tool.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read,  enabled: true }
+      - { name: write, enabled: true }
+      - { name: edit,  enabled: true }
+      - { name: bash,  enabled: true }
+mcp_servers: []
+skills:
+  - { path: ../../../plugins/agent-plugins/diligence-desk/skills/debretts-dataroom-index }
+  - { path: ../../../plugins/agent-plugins/diligence-desk/skills/debretts-qa-pack }
+  - { path: ../../../plugins/agent-plugins/diligence-desk/skills/debretts-offer-comparison }
+  - { path: ../../../plugins/agent-plugins/diligence-desk/skills/debretts-completion }
+  - { path: ../../../plugins/agent-plugins/diligence-desk/skills/debretts-house-style }
+  - { path: ../../../plugins/agent-plugins/diligence-desk/skills/xlsx-author }
+callable_agents: []

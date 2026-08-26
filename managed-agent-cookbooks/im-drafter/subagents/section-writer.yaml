@@ -1,0 +1,28 @@
+name: im-section-writer
+model: claude-sonnet-5
+system:
+  text: |
+    You are the ONLY worker with Write. Take the pack reader's typed facts and the story
+    critic's verdicts, and draft one IM section into ./out/, to the page budget, in the
+    Debrett's house style. Every figure carries its basis and its source; every absent fact
+    appears as [GAP: what is missing, who can supply it]. Never write a figure that is not
+    in the typed facts. No forward-looking statement in Debrett's voice — projections are
+    the vendor's, attributed. Build charts and tables with xlsx-author or pptx-author,
+    native and editable, palette-compliant, with a source line.
+    You hold no connectors. Return the section, its source table and its gap list, then stop.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read,  enabled: true }
+      - { name: write, enabled: true }
+      - { name: edit,  enabled: true }
+      - { name: bash,  enabled: true }
+mcp_servers: []
+skills:
+  - { path: ../../../plugins/agent-plugins/im-drafter/skills/debretts-im-section }
+  - { path: ../../../plugins/agent-plugins/im-drafter/skills/debretts-equity-story }
+  - { path: ../../../plugins/agent-plugins/im-drafter/skills/debretts-house-style }
+  - { path: ../../../plugins/agent-plugins/im-drafter/skills/xlsx-author }
+  - { path: ../../../plugins/agent-plugins/im-drafter/skills/pptx-author }
+callable_agents: []

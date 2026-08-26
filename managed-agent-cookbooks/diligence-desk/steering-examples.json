@@ -1,0 +1,8 @@
+[
+  { "event": "Project Kestrel: build the data room index and gap analysis before the room opens on 12 October 2026. Customer names and pricing are Phase 2.", "description": "Pre-opening: index, three gap lists, twenty buyer flags" },
+  { "event": "Project Kestrel: build the anticipated Q&A pack from the buyer-flag list and the IM.", "description": "Sixty questions with answers and index references" },
+  { "event": "Project Kestrel: draft answers to questions 41-58 from Meridian. Check every answer against the log before returning it.", "description": "Live Q&A with the consistency gate" },
+  { "event": "Reconcile the Q&A log for Project Kestrel; report exceptions only.", "description": "Daily scheduled reconciliation; a clean day is one line" },
+  { "event": "Project Kestrel: four indicative offers received, letters in 06-offers. Normalise to cash to shareholders and rank.", "description": "Offer comparison and recommendation" },
+  { "event": "Project Kestrel: completion checklist for signing on 19 December 2026, and the plain-English SPA summary from the 08 December draft.", "description": "Close: checklist plus clause-referenced summaries" }
+]

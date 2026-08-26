@@ -1,0 +1,6 @@
+[
+  { "event": "Build the equity story for Project Kestrel from the data pack in 02-data-pack. Stress-test every pillar.", "description": "Equity story first: pillars, counters, recommendation per pillar" },
+  { "event": "Draft IM section 10, financial review, for Project Kestrel. Page budget 7.", "description": "Financial review drafted first, whatever the page order" },
+  { "event": "Draft IM section 6, customers, for Project Kestrel. Page budget 4. Customer names are Phase 2 only.", "description": "Section with a sensitivity constraint" },
+  { "event": "Section 6 reviewed: sharpen the concentration paragraph, keep the structure, add the contract-length table.", "description": "Iteration on a returned section rather than a redraft" }
+]

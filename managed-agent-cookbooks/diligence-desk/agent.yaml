@@ -1,0 +1,35 @@
+# Diligence Desk — orchestrator
+#
+# Deploy manifest for `POST /v1/agents`. Field names match the API; the deploy
+# script resolves {file:} / {path:} / {manifest:} references before posting.
+
+name: diligence-desk
+model: claude-opus-5
+
+system:
+  file: ../../plugins/agent-plugins/diligence-desk/agents/diligence-desk.md
+  append: >-
+    You are running headless. Produce files in ./out/; do not assume an open Office
+    document. No answer, document or figure is issued to a buyer or a vendor by you: every
+    output is staged for human review. Where a draft answer contradicts an answer already
+    given, stop and escalate rather than choosing between them.
+
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+      - { name: glob, enabled: true }
+  - { type: mcp_toolset, mcp_server_name: sharepoint, default_config: { enabled: true } }
+
+mcp_servers:
+  - { type: url, name: sharepoint, url: "${MICROSOFT_365_MCP_URL}" }
+
+skills:
+  - { from_plugin: ../../plugins/agent-plugins/diligence-desk }
+
+callable_agents:
+  - { manifest: ./subagents/room-reader.yaml }
+  - { manifest: ./subagents/consistency-checker.yaml }
+  - { manifest: ./subagents/pack-writer.yaml }   # only leaf with Write

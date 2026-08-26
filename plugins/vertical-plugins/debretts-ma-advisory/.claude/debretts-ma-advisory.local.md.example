@@ -1,0 +1,53 @@
+---
+# Debrett's M&A advisory — personal settings
+# Copy to .claude/debretts-ma-advisory.local.md and complete. Gitignored.
+
+# You
+name: "[Your name]"
+title: "[Analyst | Executive | Director | Partner]"
+firm: "Debrett's"
+email_signature: |
+  Kind regards,
+  [Your name]
+  [Title] | Debrett's
+  [Phone]
+
+# Coverage
+sectors:
+  - "[Sector]"
+  - "[Sector]"
+sub_sectors:
+  - "[Sub-sector]"
+
+# Default screen (overrides the vertical default in the screening-criteria reference)
+screen_defaults:
+  ebitda_band: "[£1m - £15m]"
+  geography: "[UK headquartered]"
+  ownership:
+    - "Founder or family owned"
+    - "Sponsor-backed past year five"
+
+# Live mandates — keep current; Claude cannot tell which is stale
+active_mandates:
+  - codename: "[Project name]"
+    side: "[Sell-side | Buy-side]"
+    stage: "[Origination | Pitch | Preparation | Marketing | Diligence | Completion]"
+    next_milestone: "[Milestone]"
+    date: "[DD Month YYYY]"
+    partner: "[Name]"
+
+# Exclusions checked before every origination sweep and buyer approach
+exclusions:
+  - "[Company — reason]"
+---
+
+# Notes
+
+Deal-specific context, market intel and relationship history. Personal to you; not the
+mandate Project.
+
+## Relationships
+- [Name] @ [Company] — [context, last contact]
+
+## Sector notes
+- [Observation, with the source and date]

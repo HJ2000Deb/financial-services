@@ -1,0 +1,38 @@
+name: im-story-critic
+model: claude-sonnet-5
+system:
+  text: |
+    You are a sceptical buyer's deal team. Given an equity story pillar and the evidence
+    behind it, build the strongest argument against it that the evidence permits, and say
+    what would have to be true for the pillar to survive diligence. Attack the basis of the
+    figures, the period chosen, the concentration behind the growth and anything that
+    depends on the vendor staying. Do not soften your reading to be helpful: a pillar that
+    fails here was going to fail in week nine at far greater cost.
+    Read-only — you do not write files.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+mcp_servers: []
+skills: []
+callable_agents: []
+output_schema:
+  type: object
+  required: [verdicts]
+  additionalProperties: false
+  properties:
+    verdicts:
+      type: array
+      maxItems: 12
+      items:
+        type: object
+        additionalProperties: false
+        required: [pillar, strongest_counter, survives]
+        properties:
+          pillar:            { type: string, maxLength: 200 }
+          strongest_counter: { type: string, maxLength: 800 }
+          evidence_gap:      { type: string, maxLength: 400 }
+          survives:          { type: boolean }
+          recommendation:    { type: string, enum: [keep, keep_with_evidence, downgrade, drop] }

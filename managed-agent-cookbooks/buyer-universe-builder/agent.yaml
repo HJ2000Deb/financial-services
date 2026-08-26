@@ -1,0 +1,36 @@
+# Buyer Universe Builder — orchestrator
+#
+# Deploy manifest for `POST /v1/agents`. Field names match the API; the deploy
+# script resolves {file:} / {path:} / {manifest:} references before posting.
+
+name: buyer-universe-builder
+model: claude-sonnet-5
+
+system:
+  file: ../../plugins/agent-plugins/buyer-universe-builder/agents/buyer-universe-builder.md
+  append: >-
+    You are running headless. Produce files in ./out/; do not assume an open Office
+    document. Stop for vendor approval of the buyer list before any process document
+    quotes it, and never draft an approach for a name on the exclusion list.
+
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: read, enabled: true }
+      - { name: grep, enabled: true }
+      - { name: glob, enabled: true }
+  - { type: mcp_toolset, mcp_server_name: crm,        default_config: { enabled: true } }
+  - { type: mcp_toolset, mcp_server_name: sharepoint, default_config: { enabled: true } }
+
+mcp_servers:
+  - { type: url, name: crm,        url: "${CRM_MCP_URL}" }
+  - { type: url, name: sharepoint, url: "${MICROSOFT_365_MCP_URL}" }
+
+skills:
+  - { from_plugin: ../../plugins/agent-plugins/buyer-universe-builder }
+
+callable_agents:
+  - { manifest: ./subagents/buyer-finder.yaml }
+  - { manifest: ./subagents/scorer.yaml }
+  - { manifest: ./subagents/doc-writer.yaml }   # only leaf with Write
