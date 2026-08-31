@@ -1,0 +1,8 @@
+{
+  "name": "trading-desk",
+  "version": "0.1.0",
+  "description": "Self-directed equity trading operation for a small account: ledger, dealing-cost model, capital-protection floor, position sizing, and pre-trade research discipline",
+  "author": {
+    "name": "Anthropic FSI"
+  }
+}

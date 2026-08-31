@@ -40,6 +40,11 @@
       "description": "Operational workflows: KYC document parsing and rules-grid evaluation"
     },
     {
+      "name": "trading-desk",
+      "source": "./plugins/vertical-plugins/trading-desk",
+      "description": "Self-directed equity trading operation for a small account: ledger, dealing-cost model, capital-protection floor, position sizing, and pre-trade research discipline"
+    },
+    {
       "name": "pitch-agent",
       "source": "./plugins/agent-plugins/pitch-agent",
       "description": "Comps, precedents, LBO to a branded pitch deck, end to end"
