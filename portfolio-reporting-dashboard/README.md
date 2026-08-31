@@ -47,6 +47,14 @@ Requires Playwright and a Chromium install; the test drives the real page and
 covers tooltips, keyboard access, the table twins, the filters, drill-through,
 form validation, the theme toggle and horizontal overflow.
 
+## Collecting the data
+
+`collection/` holds the two templates that feed this: the workbook portfolio
+companies fill in, and a SharePoint list definition for the returns to land in.
+`collection/README.md` carries the field mapping that keeps the workbook, the list
+and `src/data.js` in step. There is no importer yet — returns are keyed in by hand
+until one is written.
+
 ## Connecting real data
 
 `src/data.js` is the only file that holds data. Replace it with a feed from the

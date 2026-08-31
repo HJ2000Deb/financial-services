@@ -1,0 +1,208 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/sp/site-design-script-actions.schema.json",
+  "actions": [
+    {
+      "verb": "createSPList",
+      "listName": "Portfolio Returns",
+      "templateType": 100,
+      "subactions": [
+        {
+          "verb": "setDescription",
+          "description": "One item per company per quarter. Feeds the Debrett's portfolio reporting dashboard. Do not delete items — mark them Queried instead."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Text",
+          "displayName": "Company ID",
+          "internalName": "CompanyId",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{67e7aaf6-4f11-5783-ad8d-fc23965f1162}",
+          "description": "Stable short key for the company, lower case, no spaces (for example: marlowe). Must match the id used by the dashboard."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Text",
+          "displayName": "Company",
+          "internalName": "CompanyName",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{0336cbe5-a59a-5300-926a-7c3f0dca199e}",
+          "description": "Company name as it should appear in the board pack."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Text",
+          "displayName": "Period",
+          "internalName": "Period",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{1e6c373a-1fef-5cd0-ab71-bafdc754757c}",
+          "description": "Reporting quarter in the form '2026 Q2'."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "DateTime",
+          "displayName": "Period end",
+          "internalName": "PeriodEnd",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{65ef92d3-6a88-5d1b-b469-9adc755342e3}",
+          "description": "Last day of the reporting quarter."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Number",
+          "displayName": "Revenue (£000)",
+          "internalName": "Revenue",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{12a37863-c814-512c-ad5c-98c165fe9bf3}",
+          "description": "Revenue recognised in the quarter, £ thousands."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Number",
+          "displayName": "Gross profit (£000)",
+          "internalName": "GrossProfit",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{d64ecbca-4565-51bb-8dfd-a46685036dd4}",
+          "description": "Revenue less direct cost of sale, £ thousands."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Number",
+          "displayName": "EBITDA (£000)",
+          "internalName": "EBITDA",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{91b1b33b-5ba0-52f0-b14b-76b4da143d28}",
+          "description": "Before exceptional items, £ thousands. A loss is a negative number."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Number",
+          "displayName": "Cash at period end (£000)",
+          "internalName": "Cash",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{57dee227-0d99-54b3-a9a8-c01ea803ee8a}",
+          "description": "Cash and equivalents on the last day, £ thousands."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Number",
+          "displayName": "Headcount (FTE)",
+          "internalName": "Headcount",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{4eb7e79a-586c-5b9a-a435-30df65c32f94}",
+          "description": "Full-time equivalents on the payroll at period end."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Number",
+          "displayName": "Customers",
+          "internalName": "Customers",
+          "isRequired": true,
+          "addToDefaultView": true,
+          "id": "{180fd40a-76bc-530e-a6f4-ada97d0bd408}",
+          "description": "Active customers, sites or contracts at period end."
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Note",
+          "displayName": "Management commentary",
+          "internalName": "Commentary",
+          "isRequired": false,
+          "addToDefaultView": false,
+          "id": "{457b9942-4f40-5e25-a33e-452e04e1b57f}",
+          "description": "As submitted by the company. Quoted directly in the board pack."
+        },
+        {
+          "verb": "addSPFieldXml",
+          "schemaXml": "<Field Type=\"Choice\" DisplayName=\"Status\" StaticName=\"SubmissionStatus\" Name=\"SubmissionStatus\" ID=\"{cf5afade-f9b8-5282-88b4-02862054de95}\" Required=\"TRUE\" Format=\"Dropdown\"><Default>Draft</Default><CHOICES><CHOICE>Draft</CHOICE><CHOICE>Submitted</CHOICE><CHOICE>Accepted</CHOICE><CHOICE>Queried</CHOICE></CHOICES></Field>"
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "DateTime",
+          "displayName": "Submitted on",
+          "internalName": "SubmittedOn",
+          "isRequired": false,
+          "addToDefaultView": true,
+          "id": "{26667f71-b206-5089-937a-3351fdae0e27}",
+          "description": "Date the return was received."
+        },
+        {
+          "verb": "addSPFieldXml",
+          "schemaXml": "<Field Type=\"URL\" DisplayName=\"Source workbook\" StaticName=\"SourceWorkbook\" Name=\"SourceWorkbook\" ID=\"{86353983-a2e5-532e-b310-6e03ea70ca95}\" Required=\"FALSE\" Format=\"Hyperlink\" Description=\"Link to the workbook the company returned.\" />"
+        },
+        {
+          "verb": "addSPField",
+          "fieldType": "Note",
+          "displayName": "Internal notes",
+          "internalName": "InternalNotes",
+          "isRequired": false,
+          "addToDefaultView": false,
+          "id": "{e53a2208-ee99-54b3-81da-de2d1029aac4}",
+          "description": "Debrett's only. Never expose this column in a view a portfolio company can reach."
+        },
+        {
+          "verb": "addSPView",
+          "name": "All returns",
+          "viewFields": [
+            "Title",
+            "CompanyName",
+            "Period",
+            "PeriodEnd",
+            "Revenue",
+            "GrossProfit",
+            "EBITDA",
+            "Cash",
+            "Headcount",
+            "Customers",
+            "SubmissionStatus",
+            "SubmittedOn"
+          ],
+          "query": "<OrderBy><FieldRef Name='PeriodEnd' Ascending='FALSE'/><FieldRef Name='CompanyName' Ascending='TRUE'/></OrderBy>",
+          "rowLimit": 100,
+          "isPaged": true,
+          "makeDefault": true
+        },
+        {
+          "verb": "addSPView",
+          "name": "Awaiting review",
+          "viewFields": [
+            "Title",
+            "CompanyName",
+            "Period",
+            "SubmittedOn",
+            "SubmissionStatus"
+          ],
+          "query": "<Where><Eq><FieldRef Name='SubmissionStatus'/><Value Type='Text'>Submitted</Value></Eq></Where><OrderBy><FieldRef Name='SubmittedOn' Ascending='TRUE'/></OrderBy>",
+          "rowLimit": 100,
+          "isPaged": true,
+          "makeDefault": false
+        },
+        {
+          "verb": "addSPView",
+          "name": "Queried",
+          "viewFields": [
+            "Title",
+            "CompanyName",
+            "Period",
+            "SubmissionStatus",
+            "InternalNotes"
+          ],
+          "query": "<Where><Eq><FieldRef Name='SubmissionStatus'/><Value Type='Text'>Queried</Value></Eq></Where>",
+          "rowLimit": 100,
+          "isPaged": true,
+          "makeDefault": false
+        }
+      ]
+    }
+  ],
+  "bindata": {},
+  "version": 1
+}
