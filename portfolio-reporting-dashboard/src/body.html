@@ -1,0 +1,102 @@
+<div class="app">
+  <nav class="rail" aria-label="Sections">
+    <!-- Replace the text lockup with the approved Debrett's logo asset.
+         The logo is never stretched, recoloured or cropped. -->
+    <div class="rail__mark" data-asset="debretts-logo">
+      <div class="rail__wordmark">Debrett&rsquo;s</div>
+      <div class="rail__sub">Portfolio reporting</div>
+    </div>
+
+    <div class="rail__group" role="list">
+      <div class="rail__grouplabel">Board and investment team</div>
+      <button class="navlink" type="button" data-view="portfolio" aria-current="page">
+        <span>Portfolio</span><span class="navlink__count" data-count="companies"></span>
+      </button>
+      <button class="navlink" type="button" data-view="company">
+        <span>Company</span>
+      </button>
+      <button class="navlink" type="button" data-view="benchmarks">
+        <span>Benchmarks</span>
+      </button>
+      <button class="navlink" type="button" data-view="collection">
+        <span>Collection</span><span class="navlink__count" data-count="outstanding"></span>
+      </button>
+      <button class="navlink" type="button" data-view="boardpack">
+        <span>Board pack</span>
+      </button>
+    </div>
+
+    <div class="rail__group" role="list">
+      <div class="rail__grouplabel">Portfolio company</div>
+      <button class="navlink" type="button" data-view="submit">
+        <span>Submit a return</span>
+      </button>
+    </div>
+
+    <div class="rail__foot">
+      <p>Quarterly returns are due within one month of the quarter end.</p>
+    </div>
+  </nav>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1 class="topbar__title" data-slot="viewTitle">Portfolio</h1>
+        <p class="topbar__meta" data-slot="viewMeta"></p>
+      </div>
+      <div class="topbar__tools noprint">
+        <span class="chip" data-slot="sampleChip">Sample data</span>
+        <button class="btn" type="button" data-action="theme">Switch theme</button>
+      </div>
+    </header>
+
+    <div class="filters noprint" data-slot="filters">
+      <div class="field">
+        <label for="f-period">Reporting period</label>
+        <select id="f-period" data-filter="window">
+          <option value="4">Last four quarters</option>
+          <option value="8" selected>Last eight quarters</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-sector">Sector</label>
+        <select id="f-sector" data-filter="sector"></select>
+      </div>
+      <div class="field">
+        <label for="f-company">Company</label>
+        <select id="f-company" data-filter="company"></select>
+      </div>
+      <p class="filters__note">These filters scope every figure, chart and table below them.</p>
+    </div>
+
+    <section class="view" data-view="portfolio" aria-labelledby="h-portfolio">
+      <h2 class="visually-hidden" id="h-portfolio">Portfolio</h2>
+      <div data-slot="portfolio"></div>
+    </section>
+
+    <section class="view" data-view="company" hidden aria-labelledby="h-company">
+      <h2 class="visually-hidden" id="h-company">Company tear sheet</h2>
+      <div data-slot="company"></div>
+    </section>
+
+    <section class="view" data-view="benchmarks" hidden aria-labelledby="h-benchmarks">
+      <h2 class="visually-hidden" id="h-benchmarks">Benchmarks</h2>
+      <div data-slot="benchmarks"></div>
+    </section>
+
+    <section class="view" data-view="collection" hidden aria-labelledby="h-collection">
+      <h2 class="visually-hidden" id="h-collection">Data collection</h2>
+      <div data-slot="collection"></div>
+    </section>
+
+    <section class="view" data-view="submit" hidden aria-labelledby="h-submit">
+      <h2 class="visually-hidden" id="h-submit">Submit a quarterly return</h2>
+      <div data-slot="submit"></div>
+    </section>
+
+    <section class="view" data-view="boardpack" hidden aria-labelledby="h-boardpack">
+      <h2 class="visually-hidden" id="h-boardpack">Board pack</h2>
+      <div data-slot="boardpack"></div>
+    </section>
+  </main>
+</div>
