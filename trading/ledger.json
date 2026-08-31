@@ -1,0 +1,24 @@
+{
+  "currency": "GBP",
+  "opened": "2026-08-31",
+  "starting_capital": "200.00",
+  "cash": "200.00",
+  "high_water_mark": "200.00",
+  "realised_pnl": "0",
+  "halted": false,
+  "halt_reason": null,
+  "positions": {},
+  "trades": [],
+  "config": {
+    "protect_threshold": "1000",
+    "protect_giveback": "0.25",
+    "phase1_max_drawdown": "0.30",
+    "max_risk_per_trade": "0.08",
+    "max_positions": "3",
+    "min_notional": "50",
+    "commission": "0",
+    "stamp_duty_uk": "0.005",
+    "fx_fee": "0.0015",
+    "assumed_spread": "0.003"
+  }
+}
